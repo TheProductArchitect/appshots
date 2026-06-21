@@ -456,8 +456,8 @@ export default function Home() {
             github ↗
           </a>
           <span className="text-gray-200">·</span>
-          <a href="/about" className="text-xs text-gray-300 hover:text-gray-600 lowercase transition-colors">
-            contribute
+          <a href="https://theproductarchitect.github.io/appshots/about/" className="text-xs text-gray-300 hover:text-gray-600 lowercase transition-colors">
+            about
           </a>
         </div>
       </footer>
