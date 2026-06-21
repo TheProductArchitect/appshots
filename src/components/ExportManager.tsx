@@ -26,7 +26,7 @@ export function ExportManager({ previewElementId, screenshots, selectedDimension
 
     setIsExporting(true);
     try {
-      await exportSingleCategory(screenshots, null, "standard-gradient", "iphone", selectedDimensions);
+      await exportSingleCategory(screenshots, null, "iphone", selectedDimensions);
     } catch (error) {
       console.error("Export failed", error);
       alert("Failed to export assets. Please try again.");

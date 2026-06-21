@@ -2,13 +2,12 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { X, Loader2, ImageIcon } from "lucide-react";
-import { Screenshot, DeviceCategory, TemplateType } from "../lib/types";
+import { Screenshot, DeviceCategory } from "../lib/types";
 import { renderCreative, clearImageCache } from "../lib/canvasRenderer";
 
 interface CreativeCardProps {
   screenshot: Screenshot;
   logo: string | null;
-  template: TemplateType;
   device: DeviceCategory;
   index: number;
   onChange: (updates: Partial<Screenshot>) => void;
@@ -27,7 +26,7 @@ const ASPECT_RATIOS: Record<DeviceCategory, string> = {
   ipad:    '3/4',
 };
 
-export function CreativeCard({ screenshot, logo, template, device, index, onChange, onRemove }: CreativeCardProps) {
+export function CreativeCard({ screenshot, logo, device, index, onChange, onRemove }: CreativeCardProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [rendering, setRendering] = useState(true);
   const renderTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -40,14 +39,14 @@ export function CreativeCard({ screenshot, logo, template, device, index, onChan
       if (!canvas) return;
       setRendering(true);
       try {
-        await renderCreative(canvas, screenshot, logo, template, device);
+        await renderCreative(canvas, screenshot, logo, device);
       } catch {
         // silently ignore image load failures
       } finally {
         setRendering(false);
       }
     }, 200);
-  }, [screenshot, logo, template, device]);
+  }, [screenshot, logo, device]);
 
   useEffect(() => {
     scheduleRender();

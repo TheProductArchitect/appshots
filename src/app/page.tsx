@@ -6,7 +6,7 @@ import {
   Copy, Smartphone, Tablet, AlertCircle
 } from "lucide-react";
 
-import { Screenshot, DeviceCategory, CategoryState, TemplateType } from "@/lib/types";
+import { Screenshot, DeviceCategory, CategoryState } from "@/lib/types";
 import { EXPORT_DIMENSIONS, DEVICE_LABELS } from "@/lib/constants";
 import { exportSingleCategory, exportAllCategories } from "@/lib/exportUtils";
 import { UploadSection } from "@/components/UploadSection";
@@ -25,7 +25,7 @@ const DEVICE_ICONS: Record<DeviceCategory, React.ReactNode> = {
 
 const DEFAULT_BG_COLORS = ['#f0f4ff', '#fdf4ff', '#f0fdf4', '#fff7ed', '#f8fafc', '#eff6ff', '#fef2f2'];
 
-const INITIAL_CATEGORY: CategoryState = { screenshots: [], template: 'standard-gradient' };
+const INITIAL_CATEGORY: CategoryState = { screenshots: [] };
 
 function makeDefaultDimSelection(device: DeviceCategory) {
   return EXPORT_DIMENSIONS.filter(d => d.device === device).map(d => d.id);
@@ -102,7 +102,6 @@ export default function Home() {
     setCategories(prev => ({
       ...prev,
       [activeDevice]: {
-        template: src.template,
         screenshots: deepCopyScreenshots(src.screenshots),
       },
     }));
@@ -123,7 +122,6 @@ export default function Home() {
       } else {
         await exportSingleCategory(
           categories[target].screenshots, logo,
-          categories[target].template,
           target, dimSelections[target]
         );
       }
@@ -210,21 +208,6 @@ export default function Home() {
             <p className="text-xs font-bold uppercase tracking-widest text-gray-300">2 · style & format</p>
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-              {/* Template */}
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400 font-semibold lowercase">template</span>
-                {(['standard-gradient', 'clean-mockup'] as TemplateType[]).map(t => (
-                  <button
-                    key={t}
-                    onClick={() => updateCategory(activeDevice, { template: t })}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold lowercase transition-all
-                      ${active.template === t ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
-                  >
-                    {t === 'standard-gradient' ? 'gradient' : 'clean'}
-                  </button>
-                ))}
-              </div>
-
               {/* Sizes toggle */}
               <button
                 onClick={() => setShowSizes(v => !v)}
@@ -244,19 +227,6 @@ export default function Home() {
                 </span>
               )}
 
-              {/* Apply template to all */}
-              {otherDevicesWithContent.length > 0 && (
-                <button
-                  onClick={() => {
-                    DEVICES.forEach(d => {
-                      if (d !== activeDevice) updateCategory(d, { template: active.template });
-                    });
-                  }}
-                  className="text-xs text-gray-400 hover:text-gray-700 underline transition-colors lowercase ml-auto"
-                >
-                  apply template to all devices
-                </button>
-              )}
             </div>
 
             {showSizes && (
@@ -280,7 +250,6 @@ export default function Home() {
                     key={shot.id}
                     screenshot={shot}
                     logo={logo}
-                    template={active.template}
                     device={activeDevice}
                     index={i}
                     onChange={updates => updateScreenshot(activeDevice, shot.id, updates)}

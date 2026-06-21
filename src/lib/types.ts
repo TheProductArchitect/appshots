@@ -24,7 +24,7 @@ export interface Screenshot {
   bgColor2: string;
   bgImage: string | null;
   textColor: 'light' | 'dark';
-  /** Vertical crop position within the device frame: 0 = top, 50 = center, 100 = bottom */
+  /** Vertical position of the device mockup in the creative: 0 = snug below text, 100 = mostly off screen */
   screenshotOffsetY: number;
   /** Extra zoom applied on top of cover-fill: 100 = none, 200 = 2× */
   screenshotZoom: number;
@@ -32,5 +32,4 @@ export interface Screenshot {
 
 export interface CategoryState {
   screenshots: Screenshot[];
-  template: TemplateType;
 }

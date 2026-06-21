@@ -1,4 +1,4 @@
-import { Screenshot, DeviceCategory, TemplateType } from './types';
+import { Screenshot, DeviceCategory } from './types';
 
 // ─── Image cache ─────────────────────────────────────────────────────────────
 
@@ -109,7 +109,6 @@ async function drawBackground(
   ctx: CanvasRenderingContext2D,
   W: number, H: number,
   screenshot: Screenshot,
-  template: TemplateType
 ) {
   if (screenshot.bgType === 'image' && screenshot.bgImage) {
     try {
@@ -120,7 +119,6 @@ async function drawBackground(
       ctx.clip();
       drawImageCover(ctx, bgImg, 0, 0, W, H);
       ctx.restore();
-      // Overlay for readability
       ctx.fillStyle = screenshot.textColor === 'light'
         ? 'rgba(0,0,0,0.32)'
         : 'rgba(255,255,255,0.28)';
@@ -135,13 +133,12 @@ async function drawBackground(
     grad.addColorStop(1, screenshot.bgColor2);
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
-    if (template === 'standard-gradient') {
-      const glow = ctx.createRadialGradient(W / 2, H * 0.38, 0, W / 2, H * 0.38, W * 0.72);
-      glow.addColorStop(0, 'rgba(255,255,255,0.16)');
-      glow.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, W, H);
-    }
+    // Radial glow always added for gradient backgrounds
+    const glow = ctx.createRadialGradient(W / 2, H * 0.38, 0, W / 2, H * 0.38, W * 0.72);
+    glow.addColorStop(0, 'rgba(255,255,255,0.16)');
+    glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
   } else {
     ctx.fillStyle = screenshot.bgColor1;
     ctx.fillRect(0, 0, W, H);
@@ -165,29 +162,15 @@ function drawDeviceShadowAndFrame(
   deviceW: number, deviceH: number,
   r: number,
   scale: number,
-  device: DeviceCategory,
-  template: TemplateType
 ) {
-  if (template === 'standard-gradient') {
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.48)';
-    ctx.shadowBlur = 55 * scale;
-    ctx.shadowOffsetY = 26 * scale;
-    ctx.fillStyle = 'rgba(255,255,255,0.14)';
-    roundedRect(ctx, deviceX, deviceY, deviceW, deviceH, r);
-    ctx.fill();
-    ctx.restore();
-  } else {
-    const bw = Math.max(5, (device === 'ipad' ? 10 : 13) * scale);
-    ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.38)';
-    ctx.shadowBlur = 40 * scale;
-    ctx.shadowOffsetY = 16 * scale;
-    ctx.fillStyle = '#111827';
-    roundedRect(ctx, deviceX - bw, deviceY - bw, deviceW + bw * 2, deviceH + bw * 2, r + bw);
-    ctx.fill();
-    ctx.restore();
-  }
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,0.48)';
+  ctx.shadowBlur = 55 * scale;
+  ctx.shadowOffsetY = 26 * scale;
+  ctx.fillStyle = 'rgba(255,255,255,0.14)';
+  roundedRect(ctx, deviceX, deviceY, deviceW, deviceH, r);
+  ctx.fill();
+  ctx.restore();
 }
 
 function drawCameraIndicator(
@@ -196,9 +179,7 @@ function drawCameraIndicator(
   deviceW: number,
   scale: number,
   device: DeviceCategory,
-  template: TemplateType
 ) {
-  if (template !== 'clean-mockup') return;
   if (device === 'iphone') {
     // Dynamic Island pill
     const pillW = deviceW * 0.22;
@@ -309,7 +290,6 @@ async function renderPortraitCreative(
   logo: string | null,
   screenshotImg: HTMLImageElement,
   logoImg: HTMLImageElement | null,
-  template: TemplateType,
   device: DeviceCategory
 ) {
   const scale = W / 1284;
@@ -353,25 +333,27 @@ async function renderPortraitCreative(
     y += subLines.length * subSize * 1.4 + 12 * scale;
   }
 
-  // Device mockup
+  // Device mockup — position slider moves the whole frame up/down
   const { deviceW, deviceH, borderRadius: r } = getDeviceSize(W, device);
   const deviceX = (W - deviceW) / 2;
-  const deviceY = y + 18 * scale;
+  const snapY = y + 4 * scale;                       // position 0: snug below text
+  const farY  = H - deviceH * 0.45;                  // position 100: mostly off screen
+  const deviceY = snapY + Math.max(0, farY - snapY) * (screenshot.screenshotOffsetY / 100);
 
-  drawDeviceShadowAndFrame(ctx, deviceX, deviceY, deviceW, deviceH, r, scale, device, template);
+  drawDeviceShadowAndFrame(ctx, deviceX, deviceY, deviceW, deviceH, r, scale);
 
-  // Clip screenshot into device
+  // Clip screenshot into device — always center-fill, zoom applies
   ctx.save();
   roundedRect(ctx, deviceX, deviceY, deviceW, deviceH, r);
   ctx.clip();
   drawImagePositioned(
     ctx, screenshotImg, deviceX, deviceY, deviceW, deviceH,
-    screenshot.screenshotOffsetY / 100,
+    0.5,                             // always vertically centered inside the frame
     screenshot.screenshotZoom / 100,
   );
   ctx.restore();
 
-  drawCameraIndicator(ctx, deviceX, deviceY, deviceW, scale, device, template);
+  drawCameraIndicator(ctx, deviceX, deviceY, deviceW, scale, device);
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────
@@ -380,7 +362,6 @@ export async function renderCreative(
   canvas: HTMLCanvasElement,
   screenshot: Screenshot,
   logo: string | null,
-  template: TemplateType,
   device: DeviceCategory = 'iphone',
   isFeatureGraphic = false
 ): Promise<void> {
@@ -396,11 +377,11 @@ export async function renderCreative(
   ]);
 
   ctx.clearRect(0, 0, W, H);
-  await drawBackground(ctx, W, H, screenshot, template);
+  await drawBackground(ctx, W, H, screenshot);
 
   if (isFeatureGraphic) {
     await renderFeatureGraphic(ctx, W, H, screenshot, logo, screenshotImg, logoImg);
   } else {
-    await renderPortraitCreative(ctx, W, H, screenshot, logo, screenshotImg, logoImg, template, device);
+    await renderPortraitCreative(ctx, W, H, screenshot, logo, screenshotImg, logoImg, device);
   }
 }

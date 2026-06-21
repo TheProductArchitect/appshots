@@ -1,135 +1,87 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0c0c0c"/>
-      <stop offset="100%" stop-color="#181818"/>
+    <linearGradient id="phone1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
     </linearGradient>
-    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.18"/>
-      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.06"/>
+    <linearGradient id="phone2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
     </linearGradient>
-    <clipPath id="phone1clip">
-      <rect x="798" y="64" width="152" height="310" rx="24"/>
-    </clipPath>
-    <clipPath id="phone2clip">
-      <rect x="968" y="100" width="152" height="310" rx="24"/>
-    </clipPath>
-    <clipPath id="ipadclip">
-      <rect x="850" y="390" width="260" height="195" rx="18"/>
-    </clipPath>
+    <linearGradient id="phone3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#be185d"/>
+    </linearGradient>
   </defs>
 
   <!-- Background -->
-  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="#0a0a0a"/>
 
-  <!-- Glow blob behind devices -->
-  <ellipse cx="1000" cy="310" rx="320" ry="240" fill="url(#glow)"/>
+  <!-- Subtle diagonal lines for texture -->
+  <line x1="0" y1="630" x2="630" y2="0" stroke="rgba(255,255,255,0.012)" stroke-width="1"/>
+  <line x1="200" y1="630" x2="830" y2="0" stroke="rgba(255,255,255,0.012)" stroke-width="1"/>
+  <line x1="400" y1="630" x2="1030" y2="0" stroke="rgba(255,255,255,0.012)" stroke-width="1"/>
+  <line x1="600" y1="630" x2="1200" y2="30" stroke="rgba(255,255,255,0.012)" stroke-width="1"/>
 
-  <!-- ── Left content ──────────────────────────────────────────── -->
-
-  <!-- Wordmark -->
+  <!-- ── Left: wordmark ──────────────────────────────── -->
   <text
-    x="80" y="238"
+    x="72" y="280"
     font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
-    font-size="100" font-weight="900" letter-spacing="-3"
+    font-size="112" font-weight="900" letter-spacing="-4"
     fill="#ffffff">appshots.</text>
 
-  <!-- Tagline -->
   <text
-    x="80" y="300"
+    x="74" y="336"
     font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
-    font-size="28" font-weight="400"
-    fill="#6b7280">Free App Store Screenshot Generator</text>
+    font-size="24" font-weight="400"
+    fill="#4b5563">app store screenshots, simplified.</text>
 
-  <!-- Sub-tagline -->
-  <text
-    x="80" y="342"
-    font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
-    font-size="20" font-weight="400"
-    fill="#374151">zero backend · runs in your browser · open source</text>
+  <rect x="72" y="376" width="56" height="2" rx="1" fill="#ffffff" opacity="0.12"/>
 
-  <!-- Divider -->
-  <rect x="80" y="376" width="48" height="3" rx="2" fill="#3b82f6"/>
+  <!-- Pills -->
+  <rect x="72" y="404" width="76" height="28" rx="14" fill="#1a1a1a"/>
+  <text x="110" y="423" text-anchor="middle"
+    font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600"
+    fill="#6b7280">iPhone</text>
 
-  <!-- Device pills -->
-  <rect x="80" y="406" width="84" height="32" rx="16" fill="#1f2937"/>
-  <text x="122" y="427" text-anchor="middle"
-    font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600"
-    fill="#9ca3af">iPhone</text>
+  <rect x="158" y="404" width="88" height="28" rx="14" fill="#1a1a1a"/>
+  <text x="202" y="423" text-anchor="middle"
+    font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600"
+    fill="#6b7280">Android</text>
 
-  <rect x="174" y="406" width="96" height="32" rx="16" fill="#1f2937"/>
-  <text x="222" y="427" text-anchor="middle"
-    font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600"
-    fill="#9ca3af">Android</text>
+  <rect x="256" y="404" width="68" height="28" rx="14" fill="#1a1a1a"/>
+  <text x="290" y="423" text-anchor="middle"
+    font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600"
+    fill="#6b7280">iPad</text>
 
-  <rect x="280" y="406" width="72" height="32" rx="16" fill="#1f2937"/>
-  <text x="316" y="427" text-anchor="middle"
-    font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600"
-    fill="#9ca3af">iPad</text>
+  <!-- ── Right: three gradient phones ──────────────── -->
 
-  <!-- ── Device 1 — left phone ─────────────────────────────────── -->
-  <!-- Shadow -->
-  <rect x="798" y="72" width="152" height="310" rx="24" fill="#000" opacity="0.5" transform="translate(6,8)"/>
-  <!-- Frame -->
-  <rect x="798" y="64" width="152" height="310" rx="24" fill="#1f2937" stroke="#374151" stroke-width="1.5"/>
-  <!-- Screen bg -->
-  <rect x="808" y="74" width="132" height="290" rx="18" fill="#0f172a" clip-path="url(#phone1clip)"/>
-  <!-- Fake app UI inside phone 1 -->
-  <g clip-path="url(#phone1clip)">
-    <rect x="808" y="74" width="132" height="290" fill="#1e3a5f"/>
-    <!-- Gradient overlay -->
-    <rect x="808" y="74" width="132" height="80" fill="#2563eb" opacity="0.6"/>
-    <!-- Fake text lines -->
-    <rect x="824" y="100" width="90" height="10" rx="5" fill="white" opacity="0.9"/>
-    <rect x="824" y="118" width="70" height="7" rx="3" fill="white" opacity="0.5"/>
-    <!-- Fake screenshot inside phone -->
-    <rect x="820" y="148" width="108" height="180" rx="12" fill="#0f172a" opacity="0.8"/>
-    <rect x="828" y="156" width="92" height="60" rx="6" fill="#1e40af" opacity="0.7"/>
-    <rect x="828" y="226" width="60" height="7" rx="3" fill="#94a3b8" opacity="0.7"/>
-    <rect x="828" y="241" width="40" height="5" rx="2" fill="#94a3b8" opacity="0.4"/>
+  <!-- Phone 1 — blue, rotated left -->
+  <g transform="rotate(-12 775 260)">
+    <rect x="715" y="125" width="122" height="264" rx="20" fill="url(#phone1)"/>
+    <rect x="748" y="135" width="42" height="11" rx="5.5" fill="rgba(0,0,0,0.3)"/>
+    <rect x="731" y="163" width="90" height="9" rx="4.5" fill="rgba(255,255,255,0.4)"/>
+    <rect x="731" y="179" width="66" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
+    <rect x="725" y="201" width="102" height="142" rx="12" fill="rgba(0,0,0,0.18)"/>
+    <rect x="743" y="363" width="58" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
   </g>
-  <!-- Dynamic island -->
-  <rect x="851" y="74" width="44" height="14" rx="7" fill="#0f172a"/>
 
-  <!-- ── Device 2 — right phone ─────────────────────────────────── -->
-  <!-- Shadow -->
-  <rect x="968" y="108" width="152" height="310" rx="24" fill="#000" opacity="0.5" transform="translate(6,8)"/>
-  <!-- Frame -->
-  <rect x="968" y="100" width="152" height="310" rx="24" fill="#111827" stroke="#374151" stroke-width="1.5"/>
-  <!-- Fake app UI inside phone 2 -->
-  <g clip-path="url(#phone2clip)">
-    <rect x="968" y="100" width="152" height="310" fill="#0c1526"/>
-    <!-- App bg with gradient -->
-    <rect x="968" y="100" width="152" height="310" fill="#7c3aed" opacity="0.25"/>
-    <rect x="978" y="130" width="100" height="10" rx="5" fill="white" opacity="0.85"/>
-    <rect x="978" y="148" width="76" height="7" rx="3" fill="white" opacity="0.45"/>
-    <rect x="978" y="175" width="126" height="190" rx="14" fill="#0f0820" opacity="0.85"/>
-    <rect x="986" y="183" width="110" height="70" rx="8" fill="#4c1d95" opacity="0.7"/>
-    <rect x="986" y="262" width="65" height="7" rx="3" fill="#a78bfa" opacity="0.7"/>
-    <rect x="986" y="277" width="45" height="5" rx="2" fill="#a78bfa" opacity="0.35"/>
-  </g>
-  <!-- Punch-hole -->
-  <circle cx="1044" cy="116" r="8" fill="#0c1526"/>
+  <!-- Phone 2 — purple, straight, center -->
+  <rect x="876" y="88" width="130" height="280" rx="22" fill="url(#phone2)"/>
+  <rect x="876" y="88" width="130" height="280" rx="22" fill="none" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
+  <rect x="912" y="99" width="46" height="12" rx="6" fill="rgba(0,0,0,0.3)"/>
+  <rect x="892" y="129" width="96" height="10" rx="5" fill="rgba(255,255,255,0.4)"/>
+  <rect x="892" y="147" width="70" height="7" rx="3" fill="rgba(255,255,255,0.2)"/>
+  <rect x="886" y="170" width="108" height="150" rx="14" fill="rgba(0,0,0,0.18)"/>
+  <rect x="908" y="350" width="62" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
 
-  <!-- ── Device 3 — iPad ────────────────────────────────────────── -->
-  <!-- Shadow -->
-  <rect x="850" y="398" width="260" height="195" rx="18" fill="#000" opacity="0.45" transform="translate(6,8)"/>
-  <!-- Frame -->
-  <rect x="850" y="390" width="260" height="195" rx="18" fill="#1f2937" stroke="#374151" stroke-width="1.5"/>
-  <!-- Screen content -->
-  <g clip-path="url(#ipadclip)">
-    <rect x="850" y="390" width="260" height="195" fill="#0f172a"/>
-    <!-- Gradient bg -->
-    <rect x="850" y="390" width="260" height="195" fill="#065f46" opacity="0.3"/>
-    <!-- App chrome -->
-    <rect x="862" y="402" width="120" height="8" rx="4" fill="white" opacity="0.7"/>
-    <rect x="862" y="418" width="80" height="5" rx="2" fill="white" opacity="0.35"/>
-    <!-- Two-column layout hint -->
-    <rect x="862" y="435" width="112" height="130" rx="8" fill="#064e3b" opacity="0.7"/>
-    <rect x="984" y="435" width="112" height="130" rx="8" fill="#064e3b" opacity="0.5"/>
-    <rect x="870" y="443" width="90" height="50" rx="5" fill="#10b981" opacity="0.4"/>
-    <rect x="992" y="443" width="90" height="50" rx="5" fill="#10b981" opacity="0.25"/>
+  <!-- Phone 3 — pink, rotated right -->
+  <g transform="rotate(12 1085 270)">
+    <rect x="1040" y="130" width="122" height="264" rx="20" fill="url(#phone3)"/>
+    <rect x="1073" y="140" width="42" height="11" rx="5.5" fill="rgba(0,0,0,0.3)"/>
+    <rect x="1056" y="168" width="90" height="9" rx="4.5" fill="rgba(255,255,255,0.4)"/>
+    <rect x="1056" y="184" width="66" height="6" rx="3" fill="rgba(255,255,255,0.2)"/>
+    <rect x="1050" y="206" width="102" height="142" rx="12" fill="rgba(0,0,0,0.18)"/>
+    <rect x="1068" y="368" width="58" height="4" rx="2" fill="rgba(255,255,255,0.25)"/>
   </g>
-  <!-- iPad camera -->
-  <circle cx="980" cy="395" r="4" fill="#0f172a"/>
 </svg>

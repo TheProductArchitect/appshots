@@ -1,13 +1,12 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { Screenshot, DeviceCategory, TemplateType } from './types';
+import { Screenshot, DeviceCategory } from './types';
 import { EXPORT_DIMENSIONS } from './constants';
 import { renderCreative } from './canvasRenderer';
 
 export async function exportCategory(
   screenshots: Screenshot[],
   logo: string | null,
-  template: TemplateType,
   device: DeviceCategory,
   selectedDimensionIds: string[]
 ): Promise<{ ios: JSZip; android: JSZip }> {
@@ -30,7 +29,7 @@ export async function exportCategory(
       canvas.height = dim.height;
 
       await renderCreative(
-        canvas, shot, logo, template, device,
+        canvas, shot, logo, device,
         dim.type === 'feature_graphic'
       );
 
@@ -49,7 +48,7 @@ export async function exportCategory(
 }
 
 export async function exportAllCategories(
-  categories: Record<DeviceCategory, { screenshots: Screenshot[]; template: TemplateType }>,
+  categories: Record<DeviceCategory, { screenshots: Screenshot[] }>,
   logo: string | null,
   selectedDimensionIds: string[]
 ): Promise<void> {
@@ -62,7 +61,7 @@ export async function exportAllCategories(
     if (cat.screenshots.length === 0) continue;
 
     const { ios: catIos, android: catAndroid } = await exportCategory(
-      cat.screenshots, logo, cat.template, device, selectedDimensionIds
+      cat.screenshots, logo, device, selectedDimensionIds
     );
 
     // Merge into main zip
@@ -83,7 +82,6 @@ export async function exportAllCategories(
 export async function exportSingleCategory(
   screenshots: Screenshot[],
   logo: string | null,
-  template: TemplateType,
   device: DeviceCategory,
   selectedDimensionIds: string[]
 ): Promise<void> {
@@ -92,7 +90,7 @@ export async function exportSingleCategory(
   const android = zip.folder('Android')!;
 
   const { ios: catIos, android: catAndroid } = await exportCategory(
-    screenshots, logo, template, device, selectedDimensionIds
+    screenshots, logo, device, selectedDimensionIds
   );
 
   for (const [path, file] of Object.entries(catIos.files)) {

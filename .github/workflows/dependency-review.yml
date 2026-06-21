@@ -1,0 +1,26 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  review:
+    name: Review dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/dependency-review-action@v4
+        with:
+          # Block PRs that introduce high or critical severity vulnerabilities
+          fail-on-severity: high
+          # Post a summary comment on the PR
+          comment-summary-in-pr: always
+          # Also flag packages with known malware
+          deny-packages: ""
+          warn-only: false
