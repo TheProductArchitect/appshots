@@ -392,10 +392,24 @@ export default function Home() {
       )}
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}
-      <footer className="border-t border-gray-50 py-6 text-center">
+      <footer className="border-t border-gray-50 py-6 text-center space-y-2">
         <p className="text-xs text-gray-300 lowercase">
           all processing happens in your browser. no data leaves your device.
         </p>
+        <div className="flex items-center justify-center gap-4">
+          <a
+            href="https://github.com/TheProductArchitect/appshots"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-gray-300 hover:text-gray-600 lowercase transition-colors"
+          >
+            github ↗
+          </a>
+          <span className="text-gray-200">·</span>
+          <a href="/about" className="text-xs text-gray-300 hover:text-gray-600 lowercase transition-colors">
+            contribute
+          </a>
+        </div>
       </footer>
     </div>
   );
