@@ -152,7 +152,7 @@ function getDeviceSize(W: number, device: DeviceCategory) {
     const deviceW = W * 0.68;
     return { deviceW, deviceH: deviceW * (2732 / 2048), borderRadius: deviceW * 0.055 };
   }
-  const deviceW = W * 0.52;
+  const deviceW = W * 0.68;
   return { deviceW, deviceH: deviceW * 2.165, borderRadius: deviceW * 0.11 };
 }
 

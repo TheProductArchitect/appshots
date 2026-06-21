@@ -33,7 +33,7 @@ export function UploadSection({ screenshots, logo, device, onScreenshotsAdd, onL
       bgColor2: '#e0e7ff',
       bgImage: null,
       textColor: 'dark',
-      screenshotOffsetY: 50,
+      screenshotOffsetY: 0,
       screenshotZoom: 100,
     }));
     onScreenshotsAdd(newShots);
