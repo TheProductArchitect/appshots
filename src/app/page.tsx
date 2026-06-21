@@ -58,6 +58,8 @@ export default function Home() {
   const [showSizes, setShowSizes] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [exportTarget, setExportTarget] = useState<DeviceCategory | 'all' | null>(null);
+  const [globalPosition, setGlobalPosition] = useState(0);
+  const [globalZoom, setGlobalZoom] = useState(100);
 
   // ── Category helpers ───────────────────────────────────────────────────
 
@@ -95,6 +97,19 @@ export default function Home() {
         screenshots: [...prev[device].screenshots, ...newShots],
       },
     }));
+  }, []);
+
+  const applyToAll = useCallback((updates: { screenshotOffsetY?: number; screenshotZoom?: number }) => {
+    setCategories(prev => {
+      const next = { ...prev };
+      for (const dev of DEVICES) {
+        next[dev] = {
+          ...prev[dev],
+          screenshots: prev[dev].screenshots.map(s => ({ ...s, ...updates })),
+        };
+      }
+      return next;
+    });
   }, []);
 
   const copyFromDevice = useCallback((source: DeviceCategory) => {
@@ -206,6 +221,41 @@ export default function Home() {
         {active.screenshots.length > 0 && (
           <section className="border-t border-gray-100 pt-6 space-y-4">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-300">2 · style & format</p>
+
+            {/* Global position & zoom — applies to all devices */}
+            {totalAllFiles > 0 && (
+              <div className="rounded-2xl border border-gray-100 bg-gray-50/50 px-4 py-3 space-y-2">
+                <p className="text-xs text-gray-400 lowercase font-semibold">apply to all devices</p>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-gray-400 w-14 flex-shrink-0">position</span>
+                  <input
+                    type="range" min={0} max={100} step={1}
+                    value={globalPosition}
+                    onChange={e => {
+                      const v = Number(e.target.value);
+                      setGlobalPosition(v);
+                      applyToAll({ screenshotOffsetY: v });
+                    }}
+                    className="flex-1 h-1 accent-gray-800 cursor-pointer"
+                  />
+                  <span className="text-xs text-gray-400 w-6 text-right">{globalPosition}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-gray-400 w-14 flex-shrink-0">zoom</span>
+                  <input
+                    type="range" min={100} max={200} step={1}
+                    value={globalZoom}
+                    onChange={e => {
+                      const v = Number(e.target.value);
+                      setGlobalZoom(v);
+                      applyToAll({ screenshotZoom: v });
+                    }}
+                    className="flex-1 h-1 accent-gray-800 cursor-pointer"
+                  />
+                  <span className="text-xs text-gray-400 w-6 text-right">{globalZoom}%</span>
+                </div>
+              </div>
+            )}
 
             <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
               {/* Sizes toggle */}
