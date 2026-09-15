@@ -11,9 +11,9 @@ No account. No backend. Everything runs in your browser.
 
 Upload your app screenshots, add a headline and subtitle, pick a background — and export pixel-perfect creatives for every store format in one click.
 
-- iPhone (6.9″ / 6.5″ / 5.5″)
+- iPhone (6.9″ / 6.7″ / 6.5″ / 6.1″ / 5.5″ / 4.7″ SE)
 - Android phone
-- iPad Pro
+- iPad Pro, iPad mini 6
 - Google Play feature graphic
 
 All rendering happens on-device via the Canvas API. Your screenshots never leave your machine.

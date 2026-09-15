@@ -22,10 +22,9 @@ describe('EXPORT_DIMENSIONS', () => {
 
   it('required iOS screenshot sizes are present', () => {
     const ids = EXPORT_DIMENSIONS.map(d => d.id);
-    // App Store requires at least one of these
-    expect(ids).toContain('ios-69');   // 6.9" — required by Apple
-    expect(ids).toContain('ios-55');   // 5.5" — required by Apple
-    expect(ids).toContain('ios-ipad'); // 12.9" iPad — required
+    expect(ids).toContain('ios-69');   // 6.9" — required by Apple for modern submissions
+    expect(ids).toContain('ios-55');   // 5.5" — legacy size, still listed but not required
+    expect(ids).toContain('ios-ipad'); // 12.9" iPad — required for iPad apps
   });
 
   it('required Android sizes are present', () => {
@@ -65,6 +64,51 @@ describe('EXPORT_DIMENSIONS', () => {
     expect(fg, 'android-feature must exist').toBeDefined();
     expect(fg!.width).toBe(1024);
     expect(fg!.height).toBe(500);
+  });
+
+  it('iPhone 6.1" (16) is present and correct', () => {
+    const dim = EXPORT_DIMENSIONS.find(d => d.id === 'ios-61');
+    expect(dim, 'ios-61 must exist').toBeDefined();
+    expect(dim!.width).toBe(1179);
+    expect(dim!.height).toBe(2556);
+    expect(dim!.platform).toBe('ios');
+    expect(dim!.device).toBe('iphone');
+    expect(dim!.type).toBe('screenshot');
+  });
+
+  it('iPhone 4.7" (SE 3rd gen) is present and correct', () => {
+    const dim = EXPORT_DIMENSIONS.find(d => d.id === 'ios-47');
+    expect(dim, 'ios-47 must exist').toBeDefined();
+    expect(dim!.width).toBe(750);
+    expect(dim!.height).toBe(1334);
+    expect(dim!.platform).toBe('ios');
+    expect(dim!.device).toBe('iphone');
+    expect(dim!.type).toBe('screenshot');
+  });
+
+  it('iPad mini 6 is present and correct', () => {
+    const dim = EXPORT_DIMENSIONS.find(d => d.id === 'ios-ipad-mini');
+    expect(dim, 'ios-ipad-mini must exist').toBeDefined();
+    expect(dim!.width).toBe(1488);
+    expect(dim!.height).toBe(2266);
+    expect(dim!.platform).toBe('ios');
+    expect(dim!.device).toBe('ipad');
+    expect(dim!.type).toBe('screenshot');
+  });
+
+  it('ios-55 is not marked required (legacy size)', () => {
+    const dim = EXPORT_DIMENSIONS.find(d => d.id === 'ios-55');
+    expect(dim, 'ios-55 must exist').toBeDefined();
+    expect(dim!.required).toBe(false);
+  });
+
+  it('iPhone sizes are in descending order of screen height', () => {
+    const iphoneSizes = EXPORT_DIMENSIONS.filter(
+      d => d.device === 'iphone' && d.type === 'screenshot'
+    );
+    for (let i = 1; i < iphoneSizes.length; i++) {
+      expect(iphoneSizes[i].height).toBeLessThanOrEqual(iphoneSizes[i - 1].height);
+    }
   });
 });
 

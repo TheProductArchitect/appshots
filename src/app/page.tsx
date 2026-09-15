@@ -476,7 +476,7 @@ function ComplianceNotice({ device, selectedIds }: { device: DeviceCategory; sel
       'PNG or JPEG, max 500 MB per file.',
       'At most 10 screenshots per size class.',
       'No transparency on app icons.',
-      '6.9" or 6.7" + 5.5" required in App Store Connect.',
+      '6.9" required in App Store Connect; 5.5" recommended for legacy device coverage.',
     ],
     android: [
       'PNG or JPEG, no animated GIFs.',
